@@ -14,14 +14,6 @@ This project provides a pack of FreeCAD utilities:
 * **FreeCAD 0.19_pre+**
 * pyserial (if you will use HyperController)
 
-## HyperController
-
-HyperController is a hardware device for 3D space navigation and
-manipulation inside FreeCAD. It features 8+ DOF capabilities.
-
-https://github.com/mnesarco/HyperController.git
-
-
 ## Installation Method 1: zip
 
 Download this repository as a zip file, and extract into your FreeCAD extensions dir (usually `$HOME/.FreeCAD/Mod`).
@@ -41,6 +33,15 @@ git clone https://github.com/mnesarco/FreeCAD_Utils.git
 ``` 
 
 Then restart FreeCAD.
+
+
+## HyperController
+
+HyperController is a hardware device for 3D space navigation and
+manipulation inside FreeCAD. It features 8+ DOF capabilities.
+
+https://github.com/mnesarco/HyperController.git
+
 
 ## Note about pyserial
 

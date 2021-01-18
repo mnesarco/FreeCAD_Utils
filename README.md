@@ -57,3 +57,5 @@ HyperController requires pyserial, if you are running an installed version of Fr
 ## Videos
 
 * Scripting: https://www.youtube.com/watch?v=WnlR2qCRbKI
+* Python Path config: https://www.youtube.com/watch?v=GkiOFCtvPws
+* Camera (POV) saver: https://www.youtube.com/watch?v=iGuCerRy0vE

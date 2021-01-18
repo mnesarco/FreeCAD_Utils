@@ -49,3 +49,10 @@ HyperController requires pyserial, if you are running an installed version of Fr
 
 Official pyserial source: https://pypi.org/project/pyserial/#files
 
+## Forum threads
+
+* https://forum.freecadweb.org/viewtopic.php?f=22&t=54026
+
+## Videos
+
+* Scripting: https://www.youtube.com/watch?v=WnlR2qCRbKI

@@ -18,7 +18,7 @@
 # along with Mnesarco Utils.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from freecad.mnesarco.config import platform, dialog
+from freecad.mnesarco.config import platform, dialog, hyperc
 
 
 # +----------------------------------------------+
@@ -44,3 +44,4 @@ class ConfigDialog(dialog.ConfigDialog):
 
     def setup(self):        
         self.add_page(platform.PlatformConfig(self))
+        self.add_page(hyperc.HyperControllerConfig(self))

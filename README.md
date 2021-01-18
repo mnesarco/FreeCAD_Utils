@@ -47,7 +47,8 @@ https://github.com/mnesarco/HyperController.git
 
 HyperController requires pyserial, if you are running an installed version of FreeCAD using system's python3, just install pyserial in your system using your prefered method. But if you are using an AppImage, it probably will not have pyserial installed and system libs will not be used. In that case, you can use the custom Python path configurator (included in this pack) to search for pyserial from an arbitrary directory, just download and extract pyserial into a directory and then add its path to the **additional python paths** and restart FreeCAD.
 
-Official pyserial source: https://pypi.org/project/pyserial/#files
+* Official pyserial source: https://pypi.org/project/pyserial/#files
+* How to install it in FreeCAD (the easy way): https://www.youtube.com/watch?v=GkiOFCtvPws
 
 ## Forum threads
 

@@ -1,0 +1,13 @@
+<svg class="bi bi-camera-video" width="48" height="48" fill="currentColor" version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient860" x1="28.348" x2="-.72543" y1="25.774" y2="-3.2989" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#06989a" offset="0"/>
+   <stop stop-color="#16d0d2" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <circle transform="matrix(.48154 0 0 .48154 1.3493 2.5886)" cx="13.852" cy="11.251" r="14.465" fill="url(#linearGradient860)" stroke="#000" stroke-linejoin="round" stroke-width="2.7689" style="paint-order:stroke fill markers"/>
+  <circle transform="matrix(.39011 0 0 .39011 -2.533 -.1923)" cx="27" cy="21" r="17" fill="none" stroke="#34e0e2" stroke-linejoin="round" stroke-width="1.7089" style="paint-order:stroke fill markers"/>
+  <path transform="scale(.33333)" d="m24 7v18h16" fill="none" stroke="#000" stroke-width="4"/>
+ </g>
+</svg>

@@ -1,0 +1,36 @@
+# In this python script you can define independent 
+# variables and time dependent functions.
+#
+# global variable TIME contains the current Tick.
+
+print(TIME)
+
+# To define a read/write independent variable:
+#    define a python variable in the global scope
+
+scale      = 2.0
+other      = [5,10,15]
+my_options = ('Top', 'Right', 'Bottom', 'Left')
+name       = "Hello"
+
+# To define a time dependent variable or a variable 
+#    dependent on other variables:
+#    define a python function
+
+def Diameter():
+    return TIME * scale
+
+def Angle():
+    return (Diameter() * 5) % 360
+
+
+# To create not exposed functions or variables,
+# define a class to simulate a private namespace
+
+class private:
+
+    my_private_var = 80
+
+    def private_func():
+        pass
+

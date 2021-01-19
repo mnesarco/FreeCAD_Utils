@@ -44,7 +44,7 @@ class HyperControllerConfig(QtCore.QObject):
         self.form.label_baud.setText(tr("Baud rate:"))
 
     def refresh(self):
-        port = pref.get_mnesarco_pref("HyperController", "Port", default="ttyACM0")
+        port = pref.get_mnesarco_pref("HyperController", "Port", default="/dev/ttyACM0")
         baud = pref.get_mnesarco_pref("HyperController", "BaudRate", default="115200")
         self.form.port_input.setText(port)
         self.form.baud_input.setText(baud)

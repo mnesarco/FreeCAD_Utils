@@ -84,6 +84,7 @@ class Camera:
         return self.node == Gui.ActiveDocument.ActiveView.getCameraNode()
 
     def _config_direction(self, i):
+        # NOTICE: Adapted from <https://wiki.freecadweb.org/Macro_View_Rotation> Joe Dowsett.
         # Evaluate the vectors corresponding to the three directions for the
         # current view, and assign the i-th one to self.direction.
         self.view = self.node.orientation.getValue()
@@ -103,6 +104,7 @@ class Camera:
         self.direction = [self.right, self.up, self.out][i]
 
     def rotate(self, i, value):
+        # NOTICE: Adapted from <https://wiki.freecadweb.org/Macro_View_Rotation> Joe Dowsett.
         if i != self.current:
             self._config_direction(i)
             self.current = i
@@ -120,7 +122,6 @@ class Camera:
         active_view().zoomOut()
 
     def pan(self, i, value):
-
         view = active_view()
         viewer = view.getViewer()
         vp = viewer.getSoRenderManager().getViewportRegion()

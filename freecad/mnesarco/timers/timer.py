@@ -162,7 +162,7 @@ def init_gui_timers():
     add_global_action(
         name="CreateTimer",
         icon=Icons.timer,
-        action=TimerObject.create,
+        action=TimerObject.create_object,
         menu=tr("Create Timer"),
         activation=lambda: True
     )

@@ -54,7 +54,7 @@
       <item>
        <widget class="QLabel" name="label_descr">
         <property name="text">
-         <string>The name of the store will be used in expressions, it must be unique and cannot be changed later.</string>
+         <string>label_descr</string>
         </property>
         <property name="textFormat">
          <enum>Qt::PlainText</enum>

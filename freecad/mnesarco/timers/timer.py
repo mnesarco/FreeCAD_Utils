@@ -115,12 +115,18 @@ class TimerObject(DocumentObject):
         App.ActiveDocument.recompute()
 
     @staticmethod
-    def create_object():
+    def create_object(name):
         if not App.ActiveDocument:
             App.newDocument()       
-        obj = DocumentObject.create('Timer', TimerObject, TimerObjectGui)
+        obj = DocumentObject.create(name, TimerObject, TimerObjectGui)
         App.ActiveDocument.recompute()
         return obj
+
+    @staticmethod
+    def create():       
+        from .dialogs import CreatePanel
+        dialog = CreatePanel(TimerObject.create_object)
+        show_task_panel(dialog)        
 
 
 class TimerObjectGui(DocumentObjectGui):
@@ -162,7 +168,7 @@ def init_gui_timers():
     add_global_action(
         name="CreateTimer",
         icon=Icons.timer,
-        action=TimerObject.create_object,
+        action=TimerObject.create,
         menu=tr("Create Timer"),
         activation=lambda: True
     )

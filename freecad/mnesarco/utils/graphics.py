@@ -42,7 +42,10 @@ def get_bounding_box(objects, include_all=False):
                 obbox = obj.Points.BoundBox
             if obbox:
                 if bbox:
-                    bbox = bbox.united(obbox)
+                    try:
+                        bbox = bbox.united(obbox)
+                    except FloatingPointError:
+                        bbox = obbox
                 else:
                     bbox = obbox
     return bbox

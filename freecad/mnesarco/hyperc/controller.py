@@ -69,14 +69,20 @@ def event_handler(packet):
 
         if packet.event == Packet.RX:       
             private.x_angle += d
+            private.y_angle = 0
+            private.z_angle = 0
             camera.rotate(Camera.X, private.x_angle)
         
         elif packet.event == Packet.RY:       
             private.y_angle += d
+            private.x_angle = 0
+            private.z_angle = 0
             camera.rotate(Camera.Y, private.y_angle)
         
         elif packet.event == Packet.RZ:       
             private.z_angle += d
+            private.y_angle = 0
+            private.x_angle = 0
             camera.rotate(Camera.Z, private.z_angle)
 
         # Zoom

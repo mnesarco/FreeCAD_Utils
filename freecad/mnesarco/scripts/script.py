@@ -255,6 +255,10 @@ class ScriptObject(DocumentObject):
         time = obj.Time
         globals()['TIME'] = time
 
+        # Expose some common objects/utils
+        globals()['doc'] = App.ActiveDocument
+        globals()['find_object'] = lambda name: App.ActiveDocument.getObject(name)
+
         # Execute
         module = ModuleCache.get(obj, None)
         if module:

@@ -31,6 +31,7 @@ class TimerObject(DocumentObject):
     def __init__(self, obj):
         super(TimerObject, self).__init__(obj)
         obj.addProperty(Property.Integer, 'Time', 'Output', 'Current tick', Property.Flag_ReadOnly).Time = 0
+        obj.addProperty(Property.Integer, 'Value', 'Output', 'Alias of Time', Property.Flag_ReadOnly).Value = 0
         obj.addProperty(Property.Integer, 'Start', 'Limits', 'Start time').Start = 0
         obj.addProperty(Property.Integer, 'End', 'Limits', 'End time').End = 10
         obj.addProperty(Property.Integer, 'Step', 'Control', 'Step').Step = 1
@@ -68,6 +69,9 @@ class TimerObject(DocumentObject):
                 self.start(obj)
             else:
                 self.stop()
+
+        if prop == 'Time':
+            obj.Value = obj.Time    
 
     def start(self, obj):
         self.stop()

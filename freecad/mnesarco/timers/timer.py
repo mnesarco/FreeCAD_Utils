@@ -70,7 +70,7 @@ class TimerObject(DocumentObject):
             else:
                 self.stop()
 
-        if prop == 'Time':
+        if prop == 'Time' and hasattr(obj, 'Value'):
             obj.Value = obj.Time    
 
     def start(self, obj):

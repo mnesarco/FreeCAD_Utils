@@ -20,11 +20,13 @@
 
 from freecad.mnesarco import App, Gui
 from freecad.mnesarco.resources import tr
+from freecad.mnesarco.utils.qt import QtCore
 
 import time
 
 class Asm3AnimationController:
 
+    _timers = set()
 
     def __init__(self, assembly, animation, frames = 10):
         self.assembly = App.ActiveDocument.getObject(assembly)
@@ -75,3 +77,19 @@ class Asm3AnimationController:
         finally:
             Gui.runCommand('asm3CmdAutoRecompute', 1)
 
+
+    def animate_async(self, fps=20):
+        t = QtCore.QTimer()
+        frame = [0]
+        def timeout():
+            if frame[0] >= self.frames:
+                t.stop()
+                Gui.runCommand('asm3CmdAutoRecompute', 1)
+                t.deleteLater()
+                Asm3AnimationController._timers.remove(t)
+            self.frame(frame[0])
+            frame[0] += 1
+        Asm3AnimationController._timers.add(t)
+        t.timeout.connect(timeout)
+        Gui.runCommand('asm3CmdAutoRecompute', 0)
+        t.start(1000.0/fps)

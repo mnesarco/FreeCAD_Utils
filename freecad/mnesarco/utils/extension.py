@@ -157,6 +157,7 @@ class DocumentObjectGui:
         self.Type = getattr(self.__class__, 'Type', self.__class__.__name__)
 
     def attach(self, vobj):
+        self.ViewObject = vobj
         self.Object = vobj.Object
         self.standard = coin.SoGroup()
         vobj.addDisplayMode(self.standard, "Standard")
@@ -232,3 +233,7 @@ def show_task_panel(widget):
     Gui.Control.closeDialog()
     execute_later(lambda: Gui.Control.showDialog(widget), 10)
 
+def close_task_panel(do_after=None):
+    Gui.Control.closeDialog()
+    if do_after:
+        execute_later(do_after, 10)

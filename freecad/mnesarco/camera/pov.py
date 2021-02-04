@@ -18,7 +18,7 @@
 # along with Mnesarco Utils.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from freecad.mnesarco.utils.extension import DocumentObject, DocumentObjectGui, find_python_objects_by_class, show_task_panel
+from freecad.mnesarco.utils.extension import DocumentObject, DocumentObjectGui, find_python_objects_by_class, show_task_panel, close_task_panel
 from freecad.mnesarco import Gui, App
 from freecad.mnesarco.utils.toolbars import add_global_action
 from freecad.mnesarco.resources import Icons, get_ui, tr
@@ -33,11 +33,17 @@ class PointOfViewObjectGui(DocumentObjectGui):
     def __init__(self, vobj):
         super(PointOfViewObjectGui, self).__init__(vobj)
 
-    def doubleClicked(self, vobj):
+    def setEdit(self, vobj, mode=0):
         view = active_view()
         if view:
             view.setCamera(self.Object.Proxy.Camera)
             show_task_panel(Form(vobj.Object.Name))
+
+    def unsetEdit(self, vobj, mode=0):
+        close_task_panel()
+
+    def doubleClicked(self, vobj):
+        self.setEdit(vobj, 0)
 
 
 class PointOfViewObject(DocumentObject):

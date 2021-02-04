@@ -24,7 +24,7 @@ from enum import Enum
 from freecad.mnesarco import App
 from freecad.mnesarco.utils.dialogs import error_dialog
 from freecad.mnesarco.resources import Icons
-from freecad.mnesarco.utils.extension import DocumentObject, DocumentObjectGui, Property, log, show_task_panel
+from freecad.mnesarco.utils.extension import DocumentObject, DocumentObjectGui, Property, log, show_task_panel, close_task_panel
 from freecad.mnesarco.utils.editor import CodeEditorPanel
 from freecad.mnesarco.resources import tr, get_template
 from freecad.mnesarco.utils.files import resolve_path, make_path_relative
@@ -159,8 +159,15 @@ class ScriptObjectGui(DocumentObjectGui):
     def __init__(self, vobj):
         super(ScriptObjectGui, self).__init__(vobj)
 
-    def doubleClicked(self, vobj):
+    def setEdit(self, vobj, mode=0):
         show_task_panel(CodeEditorPanel(self.Object.Name, get_real_path(self.Object)))
+        return True
+
+    def unsetEdit(self, vobj, mode=0):
+        close_task_panel()
+
+    def doubleClicked(self, vobj):
+        self.setEdit(vobj, 0)
 
 
 

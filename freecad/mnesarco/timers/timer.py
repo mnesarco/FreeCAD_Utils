@@ -20,7 +20,7 @@
 
 from freecad.mnesarco.utils.toolbars import add_global_action
 from freecad.mnesarco.resources import Icons, get_ui, tr
-from freecad.mnesarco.utils.extension import DocumentObject, DocumentObjectGui, Property, log, show_task_panel
+from freecad.mnesarco.utils.extension import DocumentObject, DocumentObjectGui, Property, log, show_task_panel, close_task_panel
 from freecad.mnesarco import App, Gui
 from freecad.mnesarco.utils.qt import QtCore
 from freecad.mnesarco.utils.math import sign
@@ -140,10 +140,15 @@ class TimerObjectGui(DocumentObjectGui):
     def __init__(self, vobj):
         super(TimerObjectGui, self).__init__(vobj)
 
-    def doubleClicked(self, vobj):
+    def setEdit(self, vobj, mode=0):
         self.Object.Proxy.stop()
-        form = ManualTimeSlider(self.Object)
-        show_task_panel(form)
+        show_task_panel(ManualTimeSlider(self.Object))
+
+    def unsetEdit(self, vobj, mode=0):
+        close_task_panel()
+
+    def doubleClicked(self, vobj):
+        self.setEdit(vobj, 0)
 
 
 class ManualTimeSlider:

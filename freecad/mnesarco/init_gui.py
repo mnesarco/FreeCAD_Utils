@@ -2,9 +2,9 @@
 # 
 # Copyright (C) 2021 Frank David Martinez M. <https://github.com/mnesarco/>
 # 
-# This file is part of Utils.
+# This file is part of Mnesarco Utils.
 # 
-# Utils is free software: you can redistribute it and/or modify
+# Mnesarco Utils is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
@@ -25,6 +25,8 @@ from freecad.mnesarco.camera.pov import init_gui_pov
 from freecad.mnesarco.utils.platform import init_platform
 from freecad.mnesarco.hyperc import init_hyperc
 from freecad.mnesarco.config import init_config
+from freecad.mnesarco.remote import init_remote
+
 
 def bootstrap():
     init_platform()
@@ -33,6 +35,7 @@ def bootstrap():
     init_gui_pov()
     init_hyperc()
     init_config()
+    init_remote()
 
 
 def bootstrap_hook(wb):

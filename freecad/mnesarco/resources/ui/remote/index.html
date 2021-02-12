@@ -1,0 +1,63 @@
+<!--
+ -*- coding: utf-8 -*-
+ 
+ Copyright (C) 2021 Frank David Martinez M. <https://github.com/mnesarco/>
+ 
+ This file is part of Mnesarco Utils.
+ 
+ Mnesarco Utils is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ Utils is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with Mnesarco Utils.  If not, see <http://www.gnu.org/licenses/>.
+ 
+-->
+<!DOCTYPE html>
+<html lang="en_US">
+    <head>
+        <title>FreeCAD Macro Pad</title>
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+        <link id="stylesheet" rel="stylesheet" href="css/default.css" />
+        
+    </head>
+
+    <body onload="fcInit()">
+
+        <div class="toolbar">
+            <div class="toolbar-container">
+                <div class="tb-btn" id="btn-back" style="display: none;" title="Back">
+                    <img src="img/arrow-left.svg" alt="Back" />
+                </div>
+                <div class="tb-btn" id="btn-all-macros" title="Macros">
+                    <img src="img/macro.svg" alt="Macros" />
+                </div>
+                <div class="tb-btn" id="btn-all-workbenches" title="Workbenches">
+                    <img src="img/workbench.svg" alt="Workbenches" />
+                </div>
+                <div class="tb-btn" id="btn-wake-lock" style="float: right; padding-right: 5px;" title="Full Screen / Wake Lock">
+                    <img src="img/pin.svg" alt="Wake lock" />
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+            <div class="toolbar-sep"></div>
+        </div>
+
+        <div id="fc-root">
+            
+        </div>            
+        
+        <script type="text/javascript" src="js/NoSleep/NoSleep.min.js"></script>
+        <script type="text/javascript" src="js/remote.js"></script>
+    </body>
+ 
+</html>

@@ -1,0 +1,22 @@
+<svg width="64" height="64" version="1.1" viewBox="0 0 16.933 16.933" xmlns="http://www.w3.org/2000/svg">
+ <g stroke-linejoin="round">
+  <rect x="1.6361" y="1.1133" width="13.661" height="14.707" fill="#2e3436" stroke="#000" stroke-width=".52917" style="paint-order:stroke fill markers"/>
+  <g stroke="#729fcf" stroke-width=".52917">
+   <rect x="1.8889" y="1.3855" width="13.156" height="14.162" fill="#2e3436" style="paint-order:stroke fill markers"/>
+   <g stroke-linecap="round">
+    <rect x="3.3617" y="2.8035" width="1.5678" height="2.0974" fill="#e9b96e" style="paint-order:stroke fill markers"/>
+    <rect x="6.2812" y="2.8035" width="1.5678" height="2.0974" fill="#8ae234" style="paint-order:stroke fill markers"/>
+    <rect x="9.2006" y="2.8035" width="1.5678" height="2.0974" fill="#fcaf3e" style="paint-order:stroke fill markers"/>
+    <rect x="12.12" y="2.8035" width="1.5678" height="2.0974" fill="#3465a4" style="paint-order:stroke fill markers"/>
+    <rect x="3.3617" y="7.3689" width="1.5678" height="2.0974" fill="#ad7fa8" style="paint-order:stroke fill markers"/>
+    <rect x="6.2812" y="7.3689" width="1.5678" height="2.0974" fill="#c17d11" style="paint-order:stroke fill markers"/>
+    <rect x="9.2006" y="7.3689" width="1.5678" height="2.0974" fill="#ef2929" style="paint-order:stroke fill markers"/>
+    <rect x="12.12" y="7.3689" width="1.5678" height="2.0974" fill="#34e0e2" style="paint-order:stroke fill markers"/>
+    <rect x="3.3617" y="11.934" width="1.5678" height="2.0974" fill="#fff" style="paint-order:stroke fill markers"/>
+    <rect x="6.2812" y="11.934" width="1.5678" height="2.0974" fill="#8ae234" style="paint-order:stroke fill markers"/>
+    <rect x="9.2006" y="11.934" width="1.5678" height="2.0974" fill="#fce94f" style="paint-order:stroke fill markers"/>
+    <rect x="12.12" y="11.934" width="1.5678" height="2.0974" fill="#e9b96e" style="paint-order:stroke fill markers"/>
+   </g>
+  </g>
+ </g>
+</svg>

@@ -2,9 +2,9 @@
 # 
 # Copyright (C) 2021 Frank David Martinez M. <https://github.com/mnesarco/>
 # 
-# This file is part of Utils.
+# This file is part of Mnesarco Utils.
 # 
-# Utils is free software: you can redistribute it and/or modify
+# Mnesarco Utils is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
@@ -18,7 +18,7 @@
 # along with Mnesarco Utils.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from freecad.mnesarco.config import platform, dialog, hyperc
+from freecad.mnesarco.config import platform, dialog, hyperc, remote
 
 
 # +----------------------------------------------+
@@ -43,5 +43,6 @@ class ConfigDialog(dialog.ConfigDialog):
         super(ConfigDialog, self).__init__(parent)
 
     def setup(self):        
-        self.add_page(platform.PlatformConfig(self))
+        self.add_page(remote.RemoteConfig(self))
         self.add_page(hyperc.HyperControllerConfig(self))
+        self.add_page(platform.PlatformConfig(self))

@@ -2,9 +2,9 @@
 # 
 # Copyright (C) 2021 Frank David Martinez M. <https://github.com/mnesarco/>
 # 
-# This file is part of Utils.
+# This file is part of Mnesarco Utils.
 # 
-# Utils is free software: you can redistribute it and/or modify
+# Mnesarco Utils is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
@@ -32,7 +32,7 @@ class ConfigDialog(QtGui.QDialog):
         self.resize(542, 505)
         self.layout = QtGui.QVBoxLayout(self)
         self.tabWidget = QtGui.QTabWidget(self)
-        self.tabWidget.setTabPosition(QtGui.QTabWidget.South)
+        self.tabWidget.setTabPosition(QtGui.QTabWidget.North)
 
         buttons = QtGui.QDialogButtonBox(QtGui.QDialogButtonBox.Save | QtGui.QDialogButtonBox.Cancel, self)
         buttons.accepted.connect(self.save)
@@ -49,7 +49,7 @@ class ConfigDialog(QtGui.QDialog):
 
 
     def retranslateUi(self):
-        self.setWindowTitle(tr("Mnesarco's Utils Config"))
+        self.setWindowTitle(tr("Mnesarco Utils Config"))
 
 
     def add_page(self, page):

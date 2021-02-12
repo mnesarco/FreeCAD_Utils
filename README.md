@@ -7,6 +7,8 @@ This project provides a pack of FreeCAD utilities:
 * Direct Scripting with exported bindable functions and variables
 * Custom python paths configurator
 * Bindable Timers
+* Physical external KeyPad (Macro keyboard)
+
 
 ## Requirements
 

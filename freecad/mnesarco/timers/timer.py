@@ -73,6 +73,13 @@ class TimerObject(DocumentObject):
         if prop == 'Time' and hasattr(obj, 'Value'):
             obj.Value = obj.Time    
 
+        if prop == 'Start' and hasattr(obj, 'Time'):
+                obj.Time = obj.Start
+
+        if prop == 'End' and hasattr(obj, 'Time'):
+                obj.Time = obj.Start
+
+
     def start(self, obj):
         self.stop()
         log(tr("Starting timer {}").format(obj.Name))
@@ -115,7 +122,7 @@ class TimerObject(DocumentObject):
                 obj.Enabled = False
         if time != obj.Time:
             obj.Time = time
-            log(tr("Timer {} ({}) = {}").format(obj.Label, obj.Name, time))
+            # log(tr("Timer {} ({}) = {}").format(obj.Label, obj.Name, time))
         App.ActiveDocument.recompute()
 
     @staticmethod

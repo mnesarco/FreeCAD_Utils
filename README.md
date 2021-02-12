@@ -54,7 +54,10 @@ HyperController requires pyserial, if you are running an installed version of Fr
 
 ## Forum threads
 
-* https://forum.freecadweb.org/viewtopic.php?f=22&t=54026
+* Main Thread: https://forum.freecadweb.org/viewtopic.php?f=9&t=55511
+* Keypad: https://forum.freecadweb.org/viewtopic.php?f=24&t=55374
+* 8D Space Controller: https://forum.freecadweb.org/viewtopic.php?f=24&t=54367
+* Scripting utilities: https://forum.freecadweb.org/viewtopic.php?f=22&t=54026
 
 ## Videos
 

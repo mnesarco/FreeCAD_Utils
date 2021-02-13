@@ -18,11 +18,12 @@
 # along with Mnesarco Utils.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
+import re
 from freecad.mnesarco.utils.qt import QtCore
 from freecad.mnesarco import Gui
 from freecad.mnesarco.resources import get_ui, tr
 from freecad.mnesarco.utils import preferences as pref
-import re
+from freecad.mnesarco.utils import networking
 
 
 class RemoteConfig(QtCore.QObject):
@@ -38,7 +39,7 @@ class RemoteConfig(QtCore.QObject):
 
     def retranslateUi(self):
         self.title = tr("Remote")
-        self.form.label_banner.setText(tr("Remote Control"))
+        self.form.label_banner.setText(tr("Remote Control ({})".format(networking.get_local_ip())))
         self.form.label_port.setText(tr("Port number:"))       
 
     def refresh(self):

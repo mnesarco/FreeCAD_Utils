@@ -29,6 +29,7 @@ from freecad.mnesarco.remote import macros, workbenches
 from freecad.mnesarco.utils.extension import log_err, log
 from freecad.mnesarco.remote.exports import get_exported_file, get_exported_macro, get_exported_action
 from freecad.mnesarco.utils.dialogs import message_dialog, error_dialog
+from freecad.mnesarco.utils import networking
 
 
 DOCROOT = resources_path.joinpath('ui', 'remote')
@@ -220,17 +221,6 @@ class Router:
                 return inst
 
 
-def get_local_ip():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    ip = None
-    try:
-        s.connect(("10.255.255.255", 1))
-        ip = s.getsockname()[0]
-    except BaseException:
-        ip = None
-    finally:
-        s.close()
-    return ip
 
 router = Router()
 main_thread = None
@@ -241,7 +231,7 @@ def start_remote_server():
     if not main_thread:
         main_thread = ServerThread()
         main_thread.start()
-    ip = get_local_ip()
+    ip = networking.get_local_ip()
     if ip:
         address = "http://{}:{}".format(ip, preferences.get_mnesarco_pref('Remote', 'Port', kind=int, default=8521))
         message_dialog(tr("You can connect your device to: {}").format(address))

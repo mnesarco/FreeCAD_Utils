@@ -18,7 +18,7 @@
 # along with Mnesarco Utils.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-import ast, hashlib, json
+import ast, hashlib, json, re
 from pathlib import Path
 from freecad.mnesarco import App
 from freecad.mnesarco.utils import strings
@@ -80,19 +80,16 @@ class AllMacrosPage(page.Page):
 
 def get_all_macros():
     macros = []
+    PATTERN = re.compile(r".*(\.FCMacro|.py)$")
     root = Path(App.getUserMacroDir(True))
     if not root.exists():
         root = Path(App.getUserMacroDir(False))
-    for file in root.glob('*.FCMacro'):
-        try:
-            macros.append(MacroWrapper(file))
-        except (AttributeError, FileNotFoundError, SyntaxError):
-            pass
-    for file in root.glob('*.py'):
-        try:
-            macros.append(MacroWrapper(file))
-        except (AttributeError, FileNotFoundError, SyntaxError):
-            pass
+    for file in root.glob('*'):
+        if PATTERN.match(file.name):
+            try:
+                macros.append(MacroWrapper(file))
+            except (AttributeError, FileNotFoundError, SyntaxError):
+                pass
     return macros
 
 

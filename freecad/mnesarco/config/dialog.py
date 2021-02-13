@@ -27,9 +27,9 @@ class ConfigDialog(QtGui.QDialog):
 
     def __init__(self, parent=None):
         super(ConfigDialog, self).__init__(parent)
-        self.setObjectName("ConfigDialog")
+        self.setObjectName("Mnesarco_ConfigDialog_")
         self.setWindowModality(QtCore.Qt.ApplicationModal)
-        self.resize(542, 505)
+        self.resize(800, 600)
         self.layout = QtGui.QVBoxLayout(self)
         self.tabWidget = QtGui.QTabWidget(self)
         self.tabWidget.setTabPosition(QtGui.QTabWidget.North)
@@ -38,8 +38,13 @@ class ConfigDialog(QtGui.QDialog):
         buttons.accepted.connect(self.save)
         buttons.rejected.connect(self.reject)
 
+        self.message = QtGui.QLabel("", self)
+        blayout = QtGui.QHBoxLayout(self)
+        blayout.addWidget(self.message)
+        blayout.addWidget(buttons)
+
         self.layout.addWidget(self.tabWidget)
-        self.layout.addWidget(buttons)
+        self.layout.addLayout(blayout)
         self.retranslateUi()
         self.dirty = False
 

@@ -221,14 +221,16 @@ class Router:
 
 
 def get_local_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    ip = None
     try:
-        host = socket.gethostbyname_ex(socket.gethostname())
-        ips = [ip for ip in host[2] if not ip.startswith("127.")]
-        dns = [[(s.connect(("8.8.8.8", 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]
-        return [l for l in (ips[:1], dns) if l][0][0]
+        s.connect(("10.255.255.255", 1))
+        ip = s.getsockname()[0]
     except BaseException:
-        return None
-
+        ip = None
+    finally:
+        s.close()
+    return ip
 
 router = Router()
 main_thread = None

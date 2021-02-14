@@ -91,7 +91,7 @@ class WorkbenchPage(page.Page):
                 if button.text() == '': continue
                 qaction = button.defaultAction()
                 key = export_action(name, qaction)
-                actions.append(page.Action(qaction.iconText(), qt.extract_action_pixmap(qaction, 64), '/action/{}'.format(key)))
+                actions.append(page.Action(qaction.iconText(), export_file(qt.extract_action_pixmap(qaction, 64)), '/action/{}'.format(key)))
             if actions:
                 sections.append(page.Section(name, actions))
         return sections

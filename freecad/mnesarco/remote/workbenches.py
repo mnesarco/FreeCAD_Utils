@@ -20,7 +20,7 @@
 
 from freecad.mnesarco.utils import qt
 from freecad.mnesarco import Gui
-from freecad.mnesarco.remote.exports import export_action
+from freecad.mnesarco.remote.exports import export_action, export_file
 from freecad.mnesarco.remote import page
 from freecad.mnesarco.resources import tr
 
@@ -38,7 +38,9 @@ class WorkbenchWrapper:
             icon = self.wb.Icon
             if icon:
                 if icon.find('XPM') >= 0:
-                    icon = qt.pixmap_to_png(icon)
+                    icon = export_file(qt.pixmap_to_png(icon))
+                else:
+                    icon = export_file(icon)
             else:
                 icon = "img/noicon.svg"
         else:    

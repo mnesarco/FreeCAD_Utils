@@ -80,7 +80,7 @@ class AllMacrosPage(page.Page):
 
 def get_all_macros():
     macros = []
-    PATTERN = re.compile(r".*(\.FCMacro|.py)$")
+    PATTERN = re.compile(r".*(\.FCMacro|.py)$", re.IGNORECASE)
     root = Path(App.getUserMacroDir(True))
     if not root.exists():
         root = Path(App.getUserMacroDir(False))

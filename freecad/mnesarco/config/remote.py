@@ -24,6 +24,7 @@ from freecad.mnesarco import Gui
 from freecad.mnesarco.resources import get_ui, tr
 from freecad.mnesarco.utils import preferences as pref
 from freecad.mnesarco.utils import networking
+from freecad.mnesarco.utils import validation
 
 
 class RemoteConfig(QtCore.QObject):
@@ -47,7 +48,14 @@ class RemoteConfig(QtCore.QObject):
         self.form.port_input.setText(port)
 
     def validate(self):
-        return re.match('^[1-9][0-9]+$', self.form.port_input.text())
+        messages = []
+        if not validation.validate_int(self.form.port_input.text(), 1000, None, messages):
+            self.message = tr('Port number: {}').format(messages[0])
+            return False
+        if not validation.validate_required(self.form.port_input.text(), messages):
+            self.message = tr('Port number: {}').format(messages[0])
+            return False
+        return True
 
     def save(self):
         pref.set_mnesarco_pref("Remote", "Port", int(self.form.port_input.text()))

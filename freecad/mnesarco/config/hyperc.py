@@ -22,6 +22,7 @@ from freecad.mnesarco.utils.qt import QtCore
 from freecad.mnesarco import Gui
 from freecad.mnesarco.resources import get_ui, tr
 from freecad.mnesarco.utils import preferences as pref
+from freecad.mnesarco.utils import validation
 
 
 class HyperControllerConfig(QtCore.QObject):
@@ -50,6 +51,17 @@ class HyperControllerConfig(QtCore.QObject):
         self.form.baud_input.setText(baud)
 
     def validate(self):
+        messages = []
+        if not validation.validate_int(self.form.baud_input.text(), 9600, None, messages):
+            self.message = tr('Baud rate: {}').format(messages[0])
+            return False
+        if not validation.validate_required(self.form.baud_input.text(), messages):
+            self.message = tr('Baud rate: {}').format(messages[0])
+            return False
+        if not validation.validate_required(self.form.port_input.text(), messages):
+            self.message = tr('Port name: {}').format(messages[0])
+            return False
+
         return True
 
     def save(self):

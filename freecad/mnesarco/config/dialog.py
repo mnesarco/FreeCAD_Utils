@@ -30,7 +30,6 @@ class ConfigDialog(QtGui.QDialog):
         self.setObjectName("Mnesarco_ConfigDialog_")
         self.setWindowModality(QtCore.Qt.ApplicationModal)
         self.resize(800, 600)
-        self.layout = QtGui.QVBoxLayout(self)
         self.tabWidget = QtGui.QTabWidget(self)
         self.tabWidget.setTabPosition(QtGui.QTabWidget.North)
 
@@ -39,12 +38,16 @@ class ConfigDialog(QtGui.QDialog):
         buttons.rejected.connect(self.reject)
 
         self.message = QtGui.QLabel("", self)
-        blayout = QtGui.QHBoxLayout(self)
+        blayout = QtGui.QHBoxLayout()
         blayout.addWidget(self.message)
         blayout.addWidget(buttons)
+        
+        layout = QtGui.QVBoxLayout(self)
+        layout.addWidget(self.tabWidget)
+        layout.addLayout(blayout)
 
-        self.layout.addWidget(self.tabWidget)
-        self.layout.addLayout(blayout)
+        self.setLayout(layout)
+
         self.retranslateUi()
         self.dirty = False
 
@@ -77,6 +80,8 @@ class ConfigDialog(QtGui.QDialog):
             for i, page in enumerate(self.pages):
                 if not page.validate():
                     self.tabWidget.setCurrentIndex(i)
+                    if hasattr(page, 'message'):
+                        self.message.setText(page.message)
                     return
             for page in self.pages:
                 page.save()

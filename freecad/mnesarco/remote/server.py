@@ -35,6 +35,7 @@ from freecad.mnesarco.utils import networking
 DOCROOT = resources_path.joinpath('ui', 'remote')
 GUI_TIMEOUT = 6000
 GUI_POLL = 300
+VERBOSE = False
 
 class HTTPHandler(SimpleHTTPRequestHandler):
 
@@ -60,6 +61,10 @@ class HTTPHandler(SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({'status': 'error', 'message': str(ex)}).encode())    
         else:
             self.wfile.write(json.dumps({'status': 'error', 'message': 'Unknown action'}).encode())
+
+
+    def log_request(self, *args, **kwargs):
+        return None
 
 
 class RemoteCtrlServer(BaseHTTPServer):

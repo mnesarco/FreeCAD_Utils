@@ -18,7 +18,8 @@
 # along with Mnesarco Utils.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from freecad.mnesarco import App, Gui
+from freecad.mnesarco import App
+from freecad.mnesarco.gui import Gui
 from freecad.mnesarco.resources import tr
 from freecad.mnesarco.utils.qt import QtCore
 

@@ -19,7 +19,7 @@
 # 
 
 from freecad.mnesarco.utils import qt
-from freecad.mnesarco import Gui
+from freecad.mnesarco.gui import Gui
 from freecad.mnesarco.remote.exports import export_action, export_file
 from freecad.mnesarco.remote import page
 from freecad.mnesarco.resources import tr

@@ -19,7 +19,7 @@
 # 
 
 from freecad.mnesarco.utils.qt import QtCore
-from freecad.mnesarco import Gui
+from freecad.mnesarco.gui import Gui
 from freecad.mnesarco.resources import get_ui, tr
 from freecad.mnesarco.utils import preferences as pref
 from freecad.mnesarco.utils import validation

@@ -18,7 +18,7 @@
 # along with Mnesarco Utils.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-from freecad.mnesarco import Gui
+from freecad.mnesarco.gui import Gui
 from freecad.mnesarco.scripts.hook import init_gui_scripts
 from freecad.mnesarco.timers import init_gui_timers
 from freecad.mnesarco.camera.pov import init_gui_pov

@@ -19,7 +19,7 @@
 # 
 
 from freecad.mnesarco.utils.qt import QtGui
-from freecad.mnesarco import Gui
+from freecad.mnesarco.gui import Gui
 
 
 def find_or_add(root, name):

@@ -19,7 +19,8 @@
 # 
 
 import threading
-from freecad.mnesarco import App, Gui
+from freecad.mnesarco import App
+from freecad.mnesarco.gui import Gui
 from freecad.mnesarco.utils.qt import QtCore
 from freecad.mnesarco.utils.graphics import get_camera, Camera
 from freecad.mnesarco.utils.extension import def_log

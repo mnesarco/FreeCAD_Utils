@@ -19,11 +19,11 @@
 # 
 
 
-import json, os, re, socket
+import json, os, re
 from pathlib import Path
 from http.server import HTTPServer as BaseHTTPServer, SimpleHTTPRequestHandler
 from freecad.mnesarco.resources import tr, resources_path
-from freecad.mnesarco import App, Gui
+from freecad.mnesarco.gui import Gui
 from freecad.mnesarco.utils import preferences, qt
 from freecad.mnesarco.remote import macros, workbenches
 from freecad.mnesarco.utils.extension import log_err, log

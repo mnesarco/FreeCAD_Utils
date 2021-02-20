@@ -19,7 +19,8 @@
 # 
 
 from freecad.mnesarco.utils.extension import DocumentObject, DocumentObjectGui, find_python_objects_by_class, show_task_panel, close_task_panel
-from freecad.mnesarco import Gui, App
+from freecad.mnesarco import App
+from freecad.mnesarco.gui import Gui
 from freecad.mnesarco.utils.toolbars import add_global_action
 from freecad.mnesarco.resources import Icons, get_ui, tr
 from freecad.mnesarco.utils.qt import BasicListItem, Qt, BasicQIcon

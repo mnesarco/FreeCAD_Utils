@@ -18,10 +18,9 @@
 # along with Mnesarco Utils.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-import functools
-from pivy import coin
 
-from freecad.mnesarco import App, Gui
+from pivy import coin
+from freecad.mnesarco import App
 from freecad.mnesarco.utils.timers import execute_later
 
 
@@ -230,10 +229,12 @@ def def_log_err(tag):
 # +-------------------------------------------------------------+
 
 def show_task_panel(widget):    
+    from freecad.mnesarco.gui import Gui
     Gui.Control.closeDialog()
     execute_later(lambda: Gui.Control.showDialog(widget), 10)
 
 def close_task_panel(do_after=None):
+    from freecad.mnesarco.gui import Gui
     Gui.Control.closeDialog()
     if do_after:
         execute_later(do_after, 10)

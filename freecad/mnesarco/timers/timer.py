@@ -21,7 +21,8 @@
 from freecad.mnesarco.utils.toolbars import add_global_action
 from freecad.mnesarco.resources import Icons, get_ui, tr
 from freecad.mnesarco.utils.extension import DocumentObject, DocumentObjectGui, Property, log, show_task_panel, close_task_panel
-from freecad.mnesarco import App, Gui
+from freecad.mnesarco import App
+from freecad.mnesarco.gui import Gui
 from freecad.mnesarco.utils.qt import QtCore
 from freecad.mnesarco.utils.math import sign
 

@@ -20,7 +20,7 @@
 
 from freecad.mnesarco.utils.toolbars import add_global_action
 from freecad.mnesarco.resources import Icons, tr
-from freecad.mnesarco import Gui
+from freecad.mnesarco.gui import Gui
 
 class private:
     dialog = None

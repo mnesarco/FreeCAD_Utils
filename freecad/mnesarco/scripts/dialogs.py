@@ -19,7 +19,8 @@
 # 
 
 import re
-from freecad.mnesarco import Gui, App
+from freecad.mnesarco import App
+from freecad.mnesarco.gui import Gui
 from freecad.mnesarco.resources import get_ui, tr, get_template
 from freecad.mnesarco.utils.extension import show_task_panel
 from freecad.mnesarco.utils.editor import CodeEditorPanel

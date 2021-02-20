@@ -20,8 +20,7 @@
 
 import functools
 from pathlib import Path
-from freecad.mnesarco import Gui, App
-from freecad.mnesarco.utils.qt import QtGui
+from freecad.mnesarco import App
 
 resources_path = Path(__file__).parent
 icons_path = resources_path.joinpath('icons')
@@ -62,26 +61,50 @@ def get_template(*path):
 # | Translation                                                 |
 # +-------------------------------------------------------------+
 
-try:
-    Gui.addLanguagePath(str(translations_path))
-    Gui.updateLocale()
-except Exception as ex:
-    App.Console.PrintError('Translation loading error')
+class TranslationSetup:
 
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
+    status = 0
+    encoding = None
 
-    @functools.lru_cache()
+    @staticmethod
+    def setup_tr():
+        from freecad.mnesarco.utils.qt import QtGui
+        from freecad.mnesarco.gui import Gui
+        try:
+            Gui.addLanguagePath(str(translations_path))
+            Gui.updateLocale()
+            TranslationSetup.status = 1
+            try:
+                TranslationSetup.encoding = QtGui.QApplication.UnicodeUTF8
+            except:
+                TranslationSetup.encoding = None
+        except Exception as ex:
+            App.Console.PrintError('Translation loading error: ', str(ex))
+            TranslationSetup.status = -1
+
+    @staticmethod
+    def init():
+        if TranslationSetup.status == 0:
+            TranslationSetup.setup_tr()
+        return TranslationSetup.status > 0
+
+    @staticmethod
     def tr(text):
-        """Translate text"""
-        return QtGui.QApplication.translate('mnesarco', text, None, _encoding)
+        from freecad.mnesarco.utils.qt import QtGui
+        if TranslationSetup.init():
+            if TranslationSetup.encoding:
+                return QtGui.QApplication.translate('mnesarco', text, None, TranslationSetup.encoding)
+            else:
+                return QtGui.QApplication.translate('mnesarco', text, None)
+        else:
+            return text
 
-except Exception as ex:
 
-    @functools.lru_cache()
-    def tr(text):
-        """Translate text"""
-        return QtGui.QApplication.translate('mnesarco', text, None)
+@functools.lru_cache()
+def tr(text):
+    """Translate text"""
+    return TranslationSetup.tr(text) or text
+
 
 
 

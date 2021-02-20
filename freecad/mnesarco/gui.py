@@ -9,7 +9,7 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 # 
-# Utils is distributed in the hope that it will be useful,
+# Mnesarco Utils is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
@@ -18,17 +18,4 @@
 # along with Mnesarco Utils.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-"""
-Collection of FreeCAD utilities for extension development
-"""
-
-__author__ = "Frank David Martinez M"
-__copyright__ = "Copyright (c) 2021, Frank David Martinez M. <https://github.com/mnesarco/>" 
-__license__ = "GPL"
-__version__ = "1.0.0"
-__maintainer__ = "Frank David Martinez M. <https://github.com/mnesarco/>"
-__git__ = "https://github.com/mnesarco/fc-utils.git"
-__status__ = "Development"
-
-import FreeCAD as App
-
+import FreeCADGui as Gui

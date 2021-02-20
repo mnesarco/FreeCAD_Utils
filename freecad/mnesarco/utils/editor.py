@@ -20,7 +20,8 @@
 
 import re
 from freecad.mnesarco.utils.qt import QtCore, QtGui
-from freecad.mnesarco import App, Gui
+from freecad.mnesarco import App
+from freecad.mnesarco.gui import Gui
 from freecad.mnesarco.resources.style.py_editor import stylesheet
 from freecad.mnesarco.resources import tr
 

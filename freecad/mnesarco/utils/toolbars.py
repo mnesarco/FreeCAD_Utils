@@ -19,7 +19,7 @@
 # 
 
 from freecad.mnesarco.utils import preferences
-from freecad.mnesarco import Gui
+from freecad.mnesarco.gui import Gui
 
 TOOLBAR_NAME = "Mnesarco Utils"
 

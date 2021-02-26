@@ -1,0 +1,30 @@
+<svg width="64" height="64" version="1.1" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient73208">
+   <stop stop-color="#c4a000" offset="0"/>
+   <stop stop-color="#edd400" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient73194">
+   <stop stop-color="#c4a000" offset="0"/>
+   <stop stop-color="#fce94f" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient4389" x1="20.244" x2="17.244" y1="37.588" y2="27.588" gradientTransform="translate(-1.2435 -2.5881)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient73194"/>
+  <linearGradient id="linearGradient4399" x1="48.714" x2="46.714" y1="45.586" y2="34.586" gradientTransform="translate(1.2856 1.4142)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient73208"/>
+  <linearGradient id="linearGradient69042" x1="48.714" x2="46.714" y1="45.586" y2="35.586" gradientTransform="translate(-12.714 -17.586)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient73208"/>
+  <linearGradient id="linearGradient69056" x1="27.244" x2="22.244" y1="54.588" y2="40.588" gradientTransform="translate(-1.2435 -2.5881)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient73194"/>
+ </defs>
+ <g stroke-width="2">
+  <g stroke="#302b00" stroke-linejoin="round">
+   <path d="m9 35v-14l14 5v14z" fill="url(#linearGradient4389)"/>
+   <path d="m9 49v-14l28 10v14z" fill="url(#linearGradient69056)"/>
+   <path d="m37 59v-14l18-17v13z" fill="url(#linearGradient4399)"/>
+   <path d="m9 21 20-16 13 5-19 16z" fill="#fce94f"/>
+  </g>
+  <path d="m11.008 47.606-0.008035-9.6063 24 8 0.0081 10.185z" fill="none" stroke="#fce94f"/>
+  <path d="m39.005 54.168-0.005041-8.1682 14-13.5 0.0021 7.6768z" fill="none" stroke="#edd400"/>
+  <path d="m23 40 19-17 13 5-18 17z" fill="#fce94f" stroke="#302b00" stroke-linejoin="round"/>
+  <path d="m23 40v-14l19-16v13z" fill="url(#linearGradient69042)" stroke="#302b00" stroke-linejoin="round"/>
+  <path d="m25 36v-9l15-13v8z" fill="none" stroke="#edd400"/>
+  <path d="m11.008 33.606-8e-3 -9.6063 10 3v10z" fill="none" stroke="#fce94f"/>
+ </g>
+</svg>

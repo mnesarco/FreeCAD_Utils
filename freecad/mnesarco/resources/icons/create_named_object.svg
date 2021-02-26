@@ -1,0 +1,13 @@
+<svg class="bi bi-tools" width="48" height="48" fill="currentColor" version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="linearGradient860" x1="28.348" x2="-.72543" y1="25.774" y2="-3.2989" gradientTransform="matrix(.48154 0 0 .48154 1.3297 2.5822)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#eeeeec" offset="0"/>
+   <stop stop-color="#fff" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g stroke-linejoin="round">
+  <circle cx="8" cy="8" r="6.9655" fill="url(#linearGradient860)" stroke="#000" stroke-width="1.3333" style="paint-order:stroke fill markers"/>
+  <circle cx="7.9804" cy="7.9936" r="6.6319" fill="none" stroke="#edd400" stroke-width=".66666" style="paint-order:stroke fill markers"/>
+  <path d="m7.1382 3.9217v3.2298h-3.2298v1.6842h3.2298v3.2298h1.6842v-3.2298h3.2298v-1.6842h-3.2298v-3.2298z" fill="#c4a000" stroke="#000" stroke-linecap="round" stroke-width=".66667" style="paint-order:stroke fill markers"/>
+ </g>
+</svg>

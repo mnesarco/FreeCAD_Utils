@@ -28,6 +28,7 @@ Types = [
     ('Spreadsheet::Sheet', tr('Spreadsheet'), str(Icons.fc_create_spreadsheet), 'SpreadsheetWorkbench'),
     ('App::Part', tr('Part'), str(Icons.fc_create_part), 'PartWorkbench'),
     ('PartDesign::Body', tr('Part Body'), str(Icons.fc_create_body), 'PartDesignWorkbench'),
+    ('Sketcher::SketchObject', tr('Sketch'), str(Icons.fc_create_sketch), 'SketcherWorkbench'),
 ]
 
 VALID_NAME = re.compile(r'[a-zA-Z]\w+')

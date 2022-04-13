@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<package format="1">
+    <name>Mnesarco Utils</name>
+    <description>A collection of tools mainly dedicated to scripting and experiments.</description>
+    <version>0.1</version>
+    <maintainer email="tweeter: @mnesarco">Frank Martinez</maintainer>
+    <license file="LICENSE">GPL-3.0</license>
+    <url type="repository" branch="master">https://github.com/mnesarco/FreeCAD_Utils</url>
+    <url type="documentation">https://github.com/mnesarco/FreeCAD_Utils/blob/main/README.md</url>
+    <content>
+        <!-- No Workbench or macros. This package contains some functions and general utilities -->
+    </content>
+</package>

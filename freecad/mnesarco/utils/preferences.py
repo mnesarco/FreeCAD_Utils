@@ -51,7 +51,8 @@ def get_user_pref(*path, kind=str, default=None, root="BaseApp"):
     group = App.ParamGet(group_key)
     try:
         if kind == bool:
-            return group.GetBool(key) or default
+            v = group.GetBool(key)
+            return default if v is None else v
         elif kind == int:
             return group.GetInt(key) or default
         elif kind == float:

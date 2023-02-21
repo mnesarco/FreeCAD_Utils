@@ -80,4 +80,6 @@ def add_global_action(name=None, icon=None, action=None, accel="", statustip=Non
     preferences.set_user_pref(toolbar_key, "Name", TOOLBAR_NAME)
     preferences.set_user_pref(toolbar_key, "Active", True)
     preferences.set_user_pref(toolbar_key, cmd_id, "FreeCAD")
-    preferences.set_user_pref("MainWindow/Toolbars", TOOLBAR_NAME, True)
+    is_toolbar_configured = preferences.get_user_pref("MainWindow/Toolbars", TOOLBAR_NAME, kind=bool, default='UNSET')
+    if is_toolbar_configured == 'UNSET':
+        preferences.set_user_pref("MainWindow/Toolbars", TOOLBAR_NAME, True)

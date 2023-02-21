@@ -58,13 +58,13 @@ class Command:
 
 
 def _get_toolbar_key():
-    toolbar_key = preferences.get_user_pref(preferences.PLUGIN_KEY, "ToolbarKey", root="Plugins")
-    if toolbar_key:
-        return "Workbench/Global/Toolbar/" + toolbar_key
-    else:
-        toolbar_key = preferences.get_user_pref_next_key("Workbench/Global/Toolbar", "Custom_")
-        preferences.set_user_pref(preferences.PLUGIN_KEY, "ToolbarKey", toolbar_key, root="Plugins")
-        return "Workbench/Global/Toolbar/" + toolbar_key
+    keys = preferences.get_user_pref_keys("Workbench/Global/Toolbar")
+    for key in keys:
+        name = preferences.set_user_pref("Workbench/Global/Toolbar", key, "Name")
+        if name == TOOLBAR_NAME:
+            return "Workbench/Global/Toolbar/" + name  
+    toolbar_key = preferences.get_user_pref_next_key("Workbench/Global/Toolbar", "Custom_")
+    return "Workbench/Global/Toolbar/" + toolbar_key
 
 
 def add_global_action(name=None, icon=None, action=None, accel="", statustip=None, tooltip=None, whatsthis=None, menu=None, activation=True):

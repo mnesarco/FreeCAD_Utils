@@ -27,7 +27,8 @@ PLUGIN_KEY = 'MnesarcoUtils'
 def get_user_pref_keys(*path, root="BaseApp"):
     group_key = "User parameter:" + root + "/" + "/".join(path[:-1])
     key = path[-1]
-    return App.ParamGet(group_key).GetStrings(key)
+    keys = App.ParamGet(group_key).GetStrings(key) or []
+    return keys + [k for k in App.ParamGet(group_key).GetGroups() if k.startswith(key)]
 
 
 def get_user_pref_last_key(*path, root="BaseApp"):

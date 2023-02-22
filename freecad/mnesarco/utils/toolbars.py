@@ -58,12 +58,12 @@ class Command:
 
 
 def _get_toolbar_key():
-    keys = preferences.get_user_pref_keys("Workbench/Global/Toolbar")
-    for key in keys:
-        name = preferences.set_user_pref("Workbench/Global/Toolbar", key, "Name")
+    keys = preferences.get_user_pref_keys("Workbench/Global", "Toolbar", "Custom_")
+    for key in keys:        
+        name = preferences.get_user_pref("Workbench/Global/Toolbar", key, "Name")
         if name == TOOLBAR_NAME:
-            return "Workbench/Global/Toolbar/" + name  
-    toolbar_key = preferences.get_user_pref_next_key("Workbench/Global/Toolbar", "Custom_")
+            return "Workbench/Global/Toolbar/" + key  
+    toolbar_key = preferences.get_user_pref_next_key("Workbench/Global", "Toolbar", "Custom_")
     return "Workbench/Global/Toolbar/" + toolbar_key
 
 

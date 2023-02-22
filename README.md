@@ -18,17 +18,23 @@ This project provides a pack of FreeCAD utilities:
 
 ## Installation Method 1: zip
 
-Download this repository as a zip file, and extract into your FreeCAD extensions dir (usually `$HOME/.FreeCAD/Mod`).
+Download this repository as a zip file, and extract into your FreeCAD extensions dir:
+
+* Old FreeCAD versions: `$HOME/.FreeCAD/Mod`
+* New FreeCAD versions: `$HOME/.local/share/FreeCAD/Mod`
 
 Then restart FreeCAD.
 
 
 ## Installation Method 2: git
 
-Clone this repository inside your FreeCAD extensions dir (usually `$HOME/.FreeCAD/Mod`).
+Clone this repository inside your FreeCAD extensions dir:
+
+* Old FreeCAD versions: `$HOME/.FreeCAD/Mod`
+* New FreeCAD versions: `$HOME/.local/share/FreeCAD/Mod`
 
 ```bash
-cd ~/.FreeCAD/Mod
+cd ~/.local/share/FreeCAD/Mod
 
 git clone https://github.com/mnesarco/FreeCAD_Utils.git
 
@@ -36,6 +42,9 @@ git clone https://github.com/mnesarco/FreeCAD_Utils.git
 
 Then restart FreeCAD.
 
+## Installation Method 3: Addon manager (Preferred)
+
+Use the Addon Manager, search for Utils, Install.
 
 ## HyperController
 

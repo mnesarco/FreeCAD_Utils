@@ -208,7 +208,7 @@ def find_python_objects_by_class(cls):
 
 def log(*msg, tag="Utils"):
     """Prints to FreeCAD Console"""
-    App.Console.PrintLog("[{0}] {1}\n".format(tag, ' '.join((str(i) for i in msg))))
+    App.Console.PrintMessage("[{0}] {1}\n".format(tag, ' '.join((str(i) for i in msg))))
 
 def log_err(*msg, tag="Utils"):
     """Prints to FreeCAD Console"""

@@ -33,7 +33,7 @@ def bootstrap():
     init_gui_scripts()
     init_gui_timers()
     init_gui_pov()
-    init_hyperc()
+    # init_hyperc()
     init_config()
     init_remote()
     init_objects()

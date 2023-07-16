@@ -44,5 +44,5 @@ class ConfigDialog(dialog.ConfigDialog):
 
     def setup(self):        
         self.add_page(remote.RemoteConfig(self))
-        self.add_page(hyperc.HyperControllerConfig(self))
+        # self.add_page(hyperc.HyperControllerConfig(self))
         self.add_page(platform.PlatformConfig(self))

@@ -23,7 +23,7 @@ from freecad.mnesarco.resources import Icons, get_ui, tr
 from freecad.mnesarco.utils.extension import DocumentObject, DocumentObjectGui, Property, log, show_task_panel, close_task_panel
 from freecad.mnesarco import App
 from freecad.mnesarco.gui import Gui
-from freecad.mnesarco.utils.qt import QtCore
+from freecad.mnesarco.utils.qt import QtCore, QtGui
 from freecad.mnesarco.utils.math import sign
 
 
@@ -170,18 +170,87 @@ class ManualTimeSlider:
         slider.setMinimum(minval)
         slider.setMaximum(maxval)
         slider.setSingleStep(obj.Step)
-        slider.setValue(obj.Time)
         slider.valueChanged.connect(self.value_changed)
+        slider.setValue(obj.Time)
         self.form.setWindowTitle(tr("Manual control: {}").format(obj.Label))
         self.form.label.setText(tr("Time: {}").format(obj.Time))
 
     def value_changed(self, v):
+        self.object.Enabled = False
         self.object.Time = v
         self.form.label.setText(tr("Time: {}").format(v))
         App.ActiveDocument.recompute()
 
 
+class ManualTimeSliderItem(ManualTimeSlider):
+
+    def __init__(self, obj):
+        super().__init__(obj)
+        self.form.label.setText("{}: {}".format(obj.Label, obj.Time))
+
+    def value_changed(self, v):
+        self.object.Enabled = False
+        self.object.Time = v
+        self.form.label.setText("{}: {}".format(self.object.Label, v))
+        App.ActiveDocument.recompute()
+
+
+class AllTimers:
+
+    def __init__(self) -> None:
+        timers = [obj.Proxy for obj in App.ActiveDocument.Objects if hasattr(obj, 'Proxy') and obj.Proxy.__class__ is TimerObject]
+        panel = QtGui.QDialog()
+        panel.setWindowTitle(tr("Timers"))
+        layout = QtGui.QVBoxLayout(panel)
+        panel.setLayout(layout)
+
+        buttonsWidget = QtGui.QWidget(panel)
+        buttons = QtGui.QHBoxLayout(buttonsWidget)
+        buttonsWidget.setLayout(buttons)
+
+        layout.addWidget(buttonsWidget)
+
+        # btnPlay = QtGui.QPushButton("Play")
+        # btnPlay.clicked.connect(self.play)
+        # buttons.addWidget(btnPlay)
+        
+        # btnStop = QtGui.QPushButton("Stop")
+        # btnStop.clicked.connect(self.stop)
+        # buttons.addWidget(btnStop)
+        
+        btnReset = QtGui.QPushButton("Reset")
+        btnReset.clicked.connect(self.reset)
+        buttons.addWidget(btnReset)       
+
+        self.sliders = []
+        for timer in timers:
+            obj = timer.get_object()
+            obj.Enabled = False
+            slider = ManualTimeSliderItem(obj)
+            slider.form.label.setText(obj.Label)
+            self.sliders.append(slider)
+            layout.addWidget(slider.form)
+        self.form = panel
+
+    def play(self):
+        pass
+
+    def stop(self):
+        pass
+
+    def reset(self):
+        for slider in self.sliders:
+            slider.object.Enabled = False
+            slider.form.timeSlider.setValue(slider.object.Start)
+
+    @staticmethod
+    def show():
+        if App.ActiveDocument:
+            show_task_panel(AllTimers())
+
+
 def init_gui_timers():
+
     add_global_action(
         name="CreateTimer",
         icon=Icons.timer,
@@ -190,4 +259,11 @@ def init_gui_timers():
         activation=lambda: True
     )
 
+    add_global_action(
+        name="ShowTimers",
+        icon=Icons.timers,
+        action=AllTimers.show,
+        menu=tr("Show all timers"),
+        activation=lambda: True
+    )
 

@@ -26,6 +26,35 @@ from freecad.mnesarco.gui import Gui
 from freecad.mnesarco.utils.qt import QtCore, QtGui
 from freecad.mnesarco.utils.math import sign
 
+class TimerRegistry:
+
+    def __init__(self) -> None:
+        self.target_doc = None
+        self.timers = []
+
+    def slotDeletedDocument(self, doc):
+        log("Removing active timers...")
+        keep = []
+        for timer_doc, timer in self.timers:
+            if doc == timer_doc:
+                timer.stop()
+                timer.deleteLater()
+            else:
+                keep.append((timer_doc, timer))
+        self.timers = keep
+
+    def register(self, doc, timer):
+        self.timers.append((doc, timer))
+
+    def unregister(self, doc, timer):
+        keep = []
+        for timer_doc, old_timer in self.timers:
+            if doc != timer_doc or timer != old_timer:
+                keep.append((timer_doc, old_timer))
+        self.timers = keep
+
+TIMER_REGISTRY = TimerRegistry()
+App.addDocumentObserver(TIMER_REGISTRY)
 
 class TimerObject(DocumentObject):
 
@@ -46,6 +75,11 @@ class TimerObject(DocumentObject):
         """This DocumentObject does not need recompute"""
         pass
 
+    def onDocumentRestored(self, fp):
+        obj = self.get_object()
+        if obj:
+            obj.Enabled = False
+
     def onChanged(self, feature, prop):
         obj = self.get_object()
 
@@ -54,7 +88,7 @@ class TimerObject(DocumentObject):
                 obj.TPS = 30.0
             elif obj.TPS < 0:
                 obj.TPS = 1.0
-            if hasattr(obj, 'Enabled') and obj.Enabled:
+            if hasattr(obj, 'Enabled') and obj.Enabled and hasattr(obj, 'Time') and hasattr(obj, 'Start'):
                 self.start(obj)
 
         if prop == 'Step':
@@ -75,10 +109,10 @@ class TimerObject(DocumentObject):
             obj.Value = obj.Time    
 
         if prop == 'Start' and hasattr(obj, 'Time'):
-                obj.Time = obj.Start
+            obj.Time = obj.Start
 
         if prop == 'End' and hasattr(obj, 'Time'):
-                obj.Time = obj.Start
+            obj.Time = obj.Start
 
 
     def start(self, obj):
@@ -90,11 +124,16 @@ class TimerObject(DocumentObject):
         self.timer.setInterval(speed)
         self.timer.timeout.connect(self.timeout) 
         self.timer.start()
+        TIMER_REGISTRY.register(obj.Document, self.timer)
+
 
     def stop(self):
         timer = getattr(self, 'timer', None)
         if timer:
             try:
+                obj = self.get_object()
+                if obj:
+                    TIMER_REGISTRY.unregister(obj.Document, timer)
                 timer.stop()
                 timer.deleteLater()
                 timer = None
@@ -102,6 +141,8 @@ class TimerObject(DocumentObject):
                 pass
 
     def timeout(self):
+        if App.ActiveDocument is None:
+            return
         obj = self.get_object()
         time_dir = sign(obj.Start, obj.End)
         self.cur_dir = getattr(self, 'cur_dir', 1)

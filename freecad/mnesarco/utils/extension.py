@@ -123,7 +123,7 @@ class DocumentObject:
         return App.ActiveDocument.getObject(self.FCName)
 
     def onDocumentRestored(self, fp):
-        pass
+        self.FCName = fp.Name
 
     def move_to_group(self, group):
         obj = self.get_object()

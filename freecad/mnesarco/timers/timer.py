@@ -76,12 +76,15 @@ class TimerObject(DocumentObject):
         pass
 
     def onDocumentRestored(self, fp):
-        obj = self.get_object()
+        #obj = self.get_object()
+        self.FCName = fp.Name
+        obj = fp
         if obj:
             obj.Enabled = False
 
     def onChanged(self, feature, prop):
-        obj = self.get_object()
+        obj = feature
+        #obj = self.get_object()
 
         if prop == 'TPS':
             if obj.TPS > 30:
@@ -103,7 +106,7 @@ class TimerObject(DocumentObject):
             if getattr(obj, 'Enabled', False):
                 self.start(obj)
             else:
-                self.stop()
+                self.stop(obj)
 
         if prop == 'Time' and hasattr(obj, 'Value'):
             obj.Value = obj.Time    
@@ -116,7 +119,7 @@ class TimerObject(DocumentObject):
 
 
     def start(self, obj):
-        self.stop()
+        self.stop(obj)
         log(tr("Starting timer {}").format(obj.Name))
         obj.Time = obj.Start
         self.timer = QtCore.QTimer()
@@ -127,11 +130,10 @@ class TimerObject(DocumentObject):
         TIMER_REGISTRY.register(obj.Document, self.timer)
 
 
-    def stop(self):
+    def stop(self, obj):
         timer = getattr(self, 'timer', None)
         if timer:
             try:
-                obj = self.get_object()
                 if obj:
                     TIMER_REGISTRY.unregister(obj.Document, timer)
                 timer.stop()
@@ -144,6 +146,8 @@ class TimerObject(DocumentObject):
         if App.ActiveDocument is None:
             return
         obj = self.get_object()
+        if obj is None:
+            return
         time_dir = sign(obj.Start, obj.End)
         self.cur_dir = getattr(self, 'cur_dir', 1)
         step = obj.Step * time_dir * self.cur_dir

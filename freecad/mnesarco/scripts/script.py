@@ -285,7 +285,9 @@ class ScriptObject(DocumentObject):
         if old:
             obj = old
         else:
+            group = DocumentObject.create_group('MNGroupScripts', tr("Scripts [mnu]"), unique=True)       
             obj = DocumentObject.create(obj_name, ScriptObject, ScriptObjectGui)
+            obj.Proxy.move_to_group(group)
         App.ActiveDocument.recompute()
         return obj
 

@@ -176,7 +176,7 @@ class TimerObject(DocumentObject):
         if not App.ActiveDocument:
             App.newDocument()       
 
-        group = DocumentObject.create_group('MNGroupTimers', tr("Timers/Slicers"), unique=True)       
+        group = DocumentObject.create_group('MNGroupTimers', tr("Timers / Slicers [mnu]"), unique=True)       
         obj = DocumentObject.create(name, TimerObject, TimerObjectGui)
         obj.Proxy.move_to_group(group)
         App.ActiveDocument.recompute()

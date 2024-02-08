@@ -128,7 +128,7 @@ class Form:
         if not App.ActiveDocument:
             App.newDocument()
 
-        group = DocumentObject.create_group('GroupPointsOfView', tr("Points of view"), unique=True)       
+        group = DocumentObject.create_group('GroupPointsOfView', tr("Points of view [mnu]"), unique=True)       
         obj = DocumentObject.create('Camera', PointOfViewObject, PointOfViewObjectGui)
         obj.Proxy.move_to_group(group)
 

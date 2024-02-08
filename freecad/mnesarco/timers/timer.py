@@ -175,7 +175,10 @@ class TimerObject(DocumentObject):
     def create_object(name):
         if not App.ActiveDocument:
             App.newDocument()       
+
+        group = DocumentObject.create_group('MNGroupTimers', tr("Timers/Slicers"), unique=True)       
         obj = DocumentObject.create(name, TimerObject, TimerObjectGui)
+        obj.Proxy.move_to_group(group)
         App.ActiveDocument.recompute()
         return obj
 
@@ -194,7 +197,7 @@ class TimerObjectGui(DocumentObjectGui):
         super(TimerObjectGui, self).__init__(vobj)
 
     def setEdit(self, vobj, mode=0):
-        self.Object.Proxy.stop()
+        self.Object.Proxy.stop(self.Object)
         show_task_panel(ManualTimeSlider(self.Object))
 
     def unsetEdit(self, vobj, mode=0):

@@ -19,16 +19,7 @@
 # 
 
 """
-Collection of FreeCAD utilities for extension development
+SVG manipulation utilities
 """
 
-__author__ = "Frank David Martinez M"
-__copyright__ = "Copyright (c) 2021, Frank David Martinez M. <https://github.com/mnesarco/>" 
-__license__ = "GPL"
-__version__ = "0.2.6"
-__maintainer__ = "Frank David Martinez M. <https://github.com/mnesarco/>"
-__git__ = "https://github.com/mnesarco/fc-utils.git"
-__status__ = "Development"
-
-import FreeCAD as App
-
+from .hook import init_svg

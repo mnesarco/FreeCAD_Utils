@@ -18,17 +18,19 @@
 # along with Mnesarco Utils.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-"""
-Collection of FreeCAD utilities for extension development
-"""
+from freecad.mnesarco import App
+from freecad.mnesarco.utils import toolbars 
+from freecad.mnesarco.resources import Icons, tr
+from freecad.mnesarco.scripts.script import ScriptObject
 
-__author__ = "Frank David Martinez M"
-__copyright__ = "Copyright (c) 2021, Frank David Martinez M. <https://github.com/mnesarco/>" 
-__license__ = "GPL"
-__version__ = "0.2.6"
-__maintainer__ = "Frank David Martinez M. <https://github.com/mnesarco/>"
-__git__ = "https://github.com/mnesarco/fc-utils.git"
-__status__ = "Development"
+def create():
+    from .svg_file import SvgFile
+    SvgFile.create("SvgFile")
 
-import FreeCAD as App
-
+def init_svg():
+    toolbars.add_global_action(
+        name="CreateSvgFileObject",
+        icon=Icons.svg,
+        action=create,
+        menu=tr("Create Svg File Object"),
+        activation=lambda: App.ActiveDocument)

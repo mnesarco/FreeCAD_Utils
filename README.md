@@ -12,8 +12,8 @@ This project provides a pack of FreeCAD utilities:
 
 ## Requirements
 
-* Python 3.5+
-* **FreeCAD 0.19_pre+**
+* Python 3.8+
+* **FreeCAD 0.21+**
 * pyserial (if you will use HyperController)
 
 ## Installation Method 1: zip

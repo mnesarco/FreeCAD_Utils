@@ -27,6 +27,7 @@ from freecad.mnesarco.hyperc import init_hyperc
 from freecad.mnesarco.config import init_config
 from freecad.mnesarco.remote import init_remote
 from freecad.mnesarco.objects import init_objects
+from freecad.mnesarco.svg import init_svg
 
 def bootstrap():
     init_platform()
@@ -37,6 +38,7 @@ def bootstrap():
     init_config()
     init_remote()
     init_objects()
+    init_svg()
 
 
 def bootstrap_hook(wb):

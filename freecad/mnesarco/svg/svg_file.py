@@ -169,6 +169,7 @@ class SvgFile:
         if self.file and Path(self.file).exists() and self.select:
             doc_name = App.ActiveDocument.Name
             svg_doc: App.Document = App.newDocument('_svg_import_', hidden=True, temp=True)
+            svg_doc_name = svg_doc.Name
             svg.insert(self.file, svg_doc.Name)
             App.setActiveDocument(doc_name)
 
@@ -184,7 +185,10 @@ class SvgFile:
                         obj.addObject(child)
                     old_children[child.Name] = False
 
-            App.closeDocument(svg_doc.Name)
+            try:
+                App.closeDocument(svg_doc_name)
+            except:
+                pass
             
             for name, remove in old_children.items():
                 if remove:

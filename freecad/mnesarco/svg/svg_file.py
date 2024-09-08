@@ -42,7 +42,7 @@ SELECTOR_PATTERN = re.compile(r'((?P<name>\w+)\s*:\s*)?\s*(?P<pat>.*)')
 WORD_PATTERN = re.compile(r'\w+')
 
 
-def select(pattern: str, doc: App.Document, shapes: bool = True) -> List[Part.Shape | App.DocumentObject]:
+def select(pattern: re.Pattern, doc: App.Document, shapes: bool = True) -> List[Part.Shape | App.DocumentObject]:
     """
     Extracts objects from the imported svg document using pattern to match ids.
 
@@ -51,10 +51,9 @@ def select(pattern: str, doc: App.Document, shapes: bool = True) -> List[Part.Sh
     :param bool shapes: if true, the Shape is extracted, the DocumentObject otherwise.
     :return List[Part.Shape | App.DocumentObject]: all matching objects.
     """
-    pat = re.compile(pattern)
     result = []
     for obj in doc.Objects:
-        if pat.fullmatch(obj.Name) and hasattr(obj, 'Shape'):
+        if pattern.fullmatch(obj.Name) and hasattr(obj, 'Shape'):
             if shapes:
                 result.append(obj.Shape.copy())
             else:
@@ -171,30 +170,34 @@ class SvgFile:
             svg_doc: App.Document = App.newDocument('_svg_import_', hidden=True, temp=True)
             svg_doc_name = svg_doc.Name
             svg.insert(self.file, svg_doc.Name)
-            App.setActiveDocument(doc_name)
 
             old_children = dict()
             if obj.Group:
                 old_children = {c.Name: True for c in obj.Group}
 
+            new_children = []
             for name, pattern in parse_selectors(self.select, obj.Name):
                 shapes = select(pattern, svg_doc, True)
                 if shapes:
-                    child = upsert(Part.makeCompound(shapes), name, App.ActiveDocument)
-                    if child.Name not in old_children:
-                        obj.addObject(child)
-                    old_children[child.Name] = False
+                    new_children.append((Part.makeCompound(shapes), name))
 
             try:
                 App.closeDocument(svg_doc_name)
             except:
                 pass
             
+            App.setActiveDocument(doc_name)
+            for shape, name in new_children:
+                child = upsert(shape, name, App.ActiveDocument)
+                if child.Name not in old_children:
+                    obj.addObject(child)
+                old_children[child.Name] = False
+
             for name, remove in old_children.items():
-                if remove:
+                if remove and App.ActiveDocument.getObject(name):
                     App.ActiveDocument.removeObject(name)
 
             Gui.Selection.clearSelection()
-            Gui.Selection.addSelection(doc_name, obj.Name)
+            Gui.Selection.addSelection(App.ActiveDocument.Name, obj.Name)
 
             

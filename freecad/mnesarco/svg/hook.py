@@ -21,11 +21,14 @@
 from freecad.mnesarco import App
 from freecad.mnesarco.utils import toolbars 
 from freecad.mnesarco.resources import Icons, tr
-from freecad.mnesarco.scripts.script import ScriptObject
 
 def create():
     from .svg_file import SvgFile
-    SvgFile.create("SvgFile")
+    import FreeCADGui as Gui # type: ignore
+    obj = SvgFile.create("SvgFile")
+    Gui.Selection.clearSelection()
+    Gui.Selection.addSelection(App.ActiveDocument.Name, obj.Name)
+
 
 def init_svg():
     toolbars.add_global_action(

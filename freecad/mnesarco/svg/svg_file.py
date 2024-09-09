@@ -30,6 +30,7 @@ from itertools import count
 import PySide.QtCore as QtCore # type: ignore
 import PySide.QtGui as QtGui # type: ignore
 
+from freecad.mnesarco.utils.extension import def_log
 from freecad.mnesarco.vendor.fpo import (
     proxy, 
     view_proxy, 
@@ -38,30 +39,27 @@ from freecad.mnesarco.vendor.fpo import (
     PropertyStringList, 
     PropertyMode)
 
+log_err = def_log('SvgFile')
+
 SELECTOR_PATTERN = re.compile(r'((?P<name>\w+)\s*:\s*)?\s*(?P<pat>.*)')
 WORD_PATTERN = re.compile(r'\w+')
 
-
-def select(pattern: re.Pattern, doc: App.Document, shapes: bool = True) -> List[Part.Shape | App.DocumentObject]:
+def select(pattern: re.Pattern, doc: App.Document) -> List[Part.Shape]:
     """
     Extracts objects from the imported svg document using pattern to match ids.
 
     :param str pattern: regex to match svg node ids.
     :param App.Document doc: Source document.
-    :param bool shapes: if true, the Shape is extracted, the DocumentObject otherwise.
     :return List[Part.Shape | App.DocumentObject]: all matching objects.
     """
     result = []
     for obj in doc.Objects:
-        if pattern.fullmatch(obj.Name) and hasattr(obj, 'Shape'):
-            if shapes:
-                result.append(obj.Shape.copy())
-            else:
-                result.append(obj)
+        if pattern.fullmatch(obj.Name) and hasattr(obj, 'Shape') and obj.Shape:
+            result.append(obj.Shape.copy())
     return result
 
 
-def upsert(shape: Part.Shape, name: str, doc: App.Document) -> App.DocumentObject:
+def upsert(shape: Part.Shape, name: str, doc: App.Document, parent: App.DocumentObject) -> App.DocumentObject:
     """
     Insert or update Object's Shape.
 
@@ -73,12 +71,15 @@ def upsert(shape: Part.Shape, name: str, doc: App.Document) -> App.DocumentObjec
     obj = doc.getObject(name)
     if not obj:
         obj = doc.addObject('Part::FeatureExt', name)
+        obj.Label = name
         obj.addExtension('Part::AttachExtensionPython')
     obj.Shape = shape
+    if not obj.getParent():
+        parent.addObject(obj)
     return obj
     
 
-def parse_selector(name: str|None, pattern: str|None, id_prefix: str, id_gen: count) -> Tuple[str, re.Pattern] | None:
+def parse_selector(name: str|None, pattern: str|None, id_prefix: str, id_gen: count) -> Tuple[str, re.Pattern, str] | None:
     """
     Parse selectors into valid name, pattern objects
 
@@ -86,7 +87,7 @@ def parse_selector(name: str|None, pattern: str|None, id_prefix: str, id_gen: co
     :param str | None pattern: pattern
     :param str id_prefix: prefix for generated names
     :param count id_gen: sequence of generated ids
-    :return Tuple[str, re.Pattern] | None: parsed pair
+    :return Tuple[str, re.Pattern, str] | None: (name, parsed pattern, raw pattern)
     """
     if not isinstance(name, str):
         name = ''
@@ -99,6 +100,8 @@ def parse_selector(name: str|None, pattern: str|None, id_prefix: str, id_gen: co
     # No pattern -> no match
     if not pattern:
         return None
+    
+    src_pattern = pattern
 
     # in case of only a word, it is used as name and pattern
     # example> path1
@@ -114,7 +117,7 @@ def parse_selector(name: str|None, pattern: str|None, id_prefix: str, id_gen: co
     if ',' in pattern:
         pattern = "|".join(f'({v.strip()})' for v in pattern.split(','))
 
-    return name, re.compile(pattern)
+    return name, re.compile(pattern), src_pattern
 
 
 def parse_selectors(select: List[str], id_prefix: str) -> Iterable[Tuple[str, re.Pattern]]:
@@ -125,7 +128,7 @@ def parse_selectors(select: List[str], id_prefix: str) -> Iterable[Tuple[str, re
     :return List[tuple[str, str]]: tuples of (name, regex)
     """
     matches = (SELECTOR_PATTERN.match(p) for p in select)
-    parsed = (parse_selector(m.group('name'), m.group('pat'), id_prefix, count(1)) for m in matches)
+    parsed = (parse_selector(m.group('name'), m.group('pat'), id_prefix, count(1)) for m in matches if m)
     return (p for p in parsed if p)
 
 
@@ -138,9 +141,7 @@ class SvgFileView:
     def on_context_menu(self, vp, menu):
         if self.is_valid_file():
             action_sync = QtGui.QAction('Sync svg file', menu)
-            QtCore.QObject.connect(action_sync,
-                                QtCore.SIGNAL("triggered()"),
-                                self.sync_svg)
+            QtCore.QObject.connect(action_sync, QtCore.SIGNAL("triggered()"), self.sync_svg)
             menu.addAction(action_sync)
 
     def sync_svg(self):
@@ -156,48 +157,108 @@ class SvgFile:
     file = PropertyFileIncluded(description = 'Path to the internal svg file', mode=PropertyMode.Hidden)
     select = PropertyStringList(description="Id Patterns", default=['all:.*'])
 
+
     @source_file.observer
     def on_source_change(self, obj, path):
         self.file = path
 
+
     def on_change(self, obj, prop_name, value, old):
-        if prop_name != 'SourceFile':
+        if prop_name != 'SourceFile' and prop_name != 'Shape':
             self.on_execute(obj)
 
-    def on_execute(self, obj):
+
+    def get_selection(self, obj: App.DocumentObject) -> Tuple[List[Tuple[str, re.Pattern, str]], bool]:
+        """
+        Parse and rename selections if necessary
+        """
+        result = []
+        changed = False
+        doc = obj.Document
+        for name, pattern, src_pattern in parse_selectors(self.select, obj.Name):
+            child = doc.getObject(name) 
+            if not child or child.getParent() is obj:
+                result.append((name, pattern, src_pattern))
+            else:
+                result.append((f"{obj.Name}_{name}", pattern, src_pattern))
+                changed = True
+        return result, changed
+
+
+    def extract_by_pattern(self, selection, not_found, new_children, svg_doc):
+        for name, pattern, raw_pattern in selection:
+            shapes = select(pattern, svg_doc)
+            if shapes:
+                new_children.append((Part.makeCompound(shapes), name))
+            else:
+                not_found.append((name, raw_pattern))
+
+
+    def extract_by_group(self, not_found, new_children, svg_doc):
+        from .parser import parse_svg_groups
+        groups = parse_svg_groups(self.file)
+        if groups:
+            for name, xml_id in not_found:
+                group = groups.get(xml_id, None)
+                if group:
+                    shapes = []
+                    for obj_id in group.get_ids():
+                        child = svg_doc.getObject(obj_id)
+                        if child and hasattr(child, 'Shape') and child.Shape:
+                            shapes.append(child.Shape.copy())
+                    if shapes:
+                        new_children.append((Part.makeCompound(shapes), name))
+                    else:
+                        log_err(f"Empty group: {name}: {xml_id}")
+                else:
+                    log_err(f"Group not found: {name}: {xml_id}")
+
+
+    def on_execute(self, obj):        
+        selection, selection_changed = self.get_selection(obj)
+        if selection_changed:
+            self.select = [f"{n}:{p}" for n,pp,p in selection]
+            return
+        
         if self.file and Path(self.file).exists() and self.select:
             doc_name = App.ActiveDocument.Name
+
+            # save objects names for removal
+            pending_for_remove = dict()
+            if obj.Group:
+                pending_for_remove = {c.Name: True for c in obj.Group}
+
+            # Load svg file into a temporal document
             svg_doc: App.Document = App.newDocument('_svg_import_', hidden=True, temp=True)
             svg_doc_name = svg_doc.Name
             svg.insert(self.file, svg_doc.Name)
 
-            old_children = dict()
-            if obj.Group:
-                old_children = {c.Name: True for c in obj.Group}
-
+            # Extract objects by id pattern
             new_children = []
-            for name, pattern in parse_selectors(self.select, obj.Name):
-                shapes = select(pattern, svg_doc, True)
-                if shapes:
-                    new_children.append((Part.makeCompound(shapes), name))
+            not_found = []
+            self.extract_by_pattern(selection, not_found, new_children, svg_doc)
 
+            # Extract object not_found, looking for groups
+            if not_found:
+                self.extract_by_group(not_found, new_children, svg_doc)
+
+            # Clean hidden import file
             try:
                 App.closeDocument(svg_doc_name)
             except:
                 pass
             
+            # Insert targets into current doc
             App.setActiveDocument(doc_name)
             for shape, name in new_children:
-                child = upsert(shape, name, App.ActiveDocument)
-                if child.Name not in old_children:
-                    obj.addObject(child)
-                old_children[child.Name] = False
+                child = upsert(shape, name, App.ActiveDocument, obj)
+                pending_for_remove[child.Name] = False
 
-            for name, remove in old_children.items():
+            # Clean orphan objects
+            for name, remove in pending_for_remove.items():
                 if remove and App.ActiveDocument.getObject(name):
                     App.ActiveDocument.removeObject(name)
 
+            # Restore selection
             Gui.Selection.clearSelection()
             Gui.Selection.addSelection(App.ActiveDocument.Name, obj.Name)
-
-            

@@ -144,6 +144,19 @@ class SvgFileView:
             QtCore.QObject.connect(action_sync, QtCore.SIGNAL("triggered()"), self.sync_svg)
             menu.addAction(action_sync)
 
+        action_recompute = QtGui.QAction('Deep recompute (Slow)', menu)
+        QtCore.QObject.connect(action_recompute, QtCore.SIGNAL("triggered()"), self.deep_recompute)
+        menu.addAction(action_recompute)
+
+    def deep_recompute(self):
+        children = self.Object.Group
+        if children:
+            for child in children:
+                for target in child.InList:
+                    if target.Name != self.Object.Name:
+                        target.touch()
+                        target.recompute()
+
     def sync_svg(self):
         if self.is_valid_file():
             self.Object.File = self.Object.SourceFile

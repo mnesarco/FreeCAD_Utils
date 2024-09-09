@@ -48,16 +48,17 @@ class ExactGroups(ContentHandler):
         self.stack = [Group('***')]
 
     def startElement(self, name, attrs):
-        xml_id = attrs.getValue('id')
-        if not xml_id:
-            return
-        if name == 'g':
-            g = Group(xml_id)
-            self.stack[-1].children.append(g)
-            self.stack.append(g)
-            self.groups[xml_id] = g
-        else:
-            self.stack[-1].ids.append(xml_id)
+        if 'id' in attrs:
+            xml_id = attrs['id']
+            if not xml_id:
+                return
+            if name == 'g':
+                g = Group(xml_id)
+                self.stack[-1].children.append(g)
+                self.stack.append(g)
+                self.groups[xml_id] = g
+            else:
+                self.stack[-1].ids.append(xml_id)
 
 
     def endElement(self, name):

@@ -250,14 +250,21 @@ class SvgFile:
             
             # Insert targets into current doc
             App.setActiveDocument(doc_name)
+            updated_objects = []
             for shape, name in new_children:
                 child = upsert(shape, name, App.ActiveDocument, obj)
                 pending_for_remove[child.Name] = False
+                updated_objects.append(child)
 
             # Clean orphan objects
             for name, remove in pending_for_remove.items():
                 if remove and App.ActiveDocument.getObject(name):
                     App.ActiveDocument.removeObject(name)
+
+            # Clear recompute
+            for child in updated_objects:
+                child.recompute()
+                child.purgeTouched()
 
             # Restore selection
             Gui.Selection.clearSelection()

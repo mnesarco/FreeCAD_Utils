@@ -2,7 +2,7 @@
 <package format="1">
     <name>Mnesarco Utils</name>
     <description>A collection of tools mainly dedicated to scripting and experiments.</description>
-    <version>0.2.11</version>
+    <version>0.2.12</version>
     <maintainer email="twitter: @mnesarco">Frank Martinez</maintainer>
     <license file="LICENSE">GPL-3.0</license>
     <url type="repository" branch="main">https://github.com/mnesarco/FreeCAD_Utils</url>

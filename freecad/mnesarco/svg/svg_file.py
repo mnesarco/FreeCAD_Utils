@@ -152,16 +152,14 @@ class SvgFileView:
         children = self.Object.Group
         if children:
             for child in children:
-                for target in child.InList:
-                    if target.Name != self.Object.Name:
-                        target.touch()
-                        target.recompute()
+                child.touch()
+            self.Object.Document.recompute(None, True, True)
 
     def sync_svg(self):
         if self.is_valid_file():
             self.Object.File = self.Object.SourceFile
             self.Object.recompute()
-            self.Object.Document.recompute()
+            self.Object.Document.recompute(None, True, True)
 
 
 @proxy(object_type='App::DocumentObjectGroupPython', view_proxy=SvgFileView)

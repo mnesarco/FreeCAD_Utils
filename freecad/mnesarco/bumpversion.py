@@ -18,17 +18,22 @@
 # along with Mnesarco Utils.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-"""
-Collection of FreeCAD utilities for extension development
-"""
+import re
 
-__author__ = "Frank David Martinez M"
-__copyright__ = "Copyright (c) 2021, Frank David Martinez M. <https://github.com/mnesarco/>" 
-__license__ = "GPL"
-__version__ = "0.2.12"
-__maintainer__ = "Frank David Martinez M. <https://github.com/mnesarco/>"
-__git__ = "https://github.com/mnesarco/fc-utils.git"
-__status__ = "Development"
+VER_PATTERN = r'(?P<maj>\d+)\.(?P<min>\d+)\.(?P<rev>\d+)'
 
-import FreeCAD as App
+targets = [
+    ('../../package.xml', re.compile(f'(<version>){VER_PATTERN}(</version>)')),
+    ('../../manifest.ini', re.compile(f'(version=){VER_PATTERN}')),
+    ('./__init__.py', re.compile(f'(__version__ = "){VER_PATTERN}(")')),
+]
 
+def repl(m: re.Match[str]) -> str:
+    pre, maj, min, rev, *pos = m.groups()
+    return f"{pre}{maj}.{min}.{int(rev)+1}{''.join(pos)}"
+
+for f, pat in targets:
+    with open(f, 'r') as fin:
+        content = fin.read()
+    with open(f, 'w') as fout:
+        fout.write(pat.sub(repl, content))

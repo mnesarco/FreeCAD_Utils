@@ -37,6 +37,7 @@ from freecad.mnesarco.vendor.fpo import (
     PropertyFile, 
     PropertyFileIncluded, 
     PropertyStringList, 
+    PropertyBool,
     PropertyMode)
 
 log_err = def_log('SvgFile')
@@ -59,7 +60,7 @@ def select(pattern: re.Pattern, doc: App.Document) -> List[Part.Shape]:
     return result
 
 
-def upsert(shape: Part.Shape, name: str, doc: App.Document, parent: App.DocumentObject) -> App.DocumentObject:
+def upsert(shape: Part.Shape, name: str, doc: App.Document, parent: App.DocumentObject, as_sketch: bool) -> App.DocumentObject:
     """
     Insert or update Object's Shape.
 
@@ -69,13 +70,29 @@ def upsert(shape: Part.Shape, name: str, doc: App.Document, parent: App.Document
     :return App.DocumentObject: updated or created object.
     """
     obj = doc.getObject(name)
-    if not obj:
-        obj = doc.addObject('Part::FeatureExt', name)
-        obj.Label = name
-        obj.addExtension('Part::AttachExtensionPython')
-    obj.Shape = shape
-    if not obj.getParent():
+    if as_sketch:
+        import Draft # type: ignore
+        if obj:
+            if hasattr(obj, 'delGeometries'):
+                obj.delGeometries([i for i in range(obj.GeometryCount)])
+                Draft.make_sketch(shape, autoconstraints=True, addTo=obj)
+            else:
+                doc.removeObject(name)
+                obj = Draft.make_sketch(shape, autoconstraints=True, name=name)
+        else:
+            obj = Draft.make_sketch(shape, autoconstraints=True, name=name)
         parent.addObject(obj)
+    else:
+        if obj and hasattr(obj, 'delGeometries'):
+            doc.removeObject(name)
+            obj = None
+        if not obj:
+            obj = doc.addObject('Part::FeatureExt', name)
+            obj.Label = name
+            obj.addExtension('Part::AttachExtensionPython')        
+        obj.Shape = shape
+        if not obj.getParent():
+            parent.addObject(obj)
     return obj
     
 
@@ -167,7 +184,7 @@ class SvgFile:
     source_file = PropertyFile(description = 'Path to the external svg file')
     file = PropertyFileIncluded(description = 'Path to the internal svg file', mode=PropertyMode.Hidden)
     select = PropertyStringList(description="Id Patterns", default=['all:.*'])
-
+    as_sketches = PropertyBool(description="Import geometry as sketches", default=False)
 
     @source_file.observer
     def on_source_change(self, obj, path):
@@ -263,7 +280,7 @@ class SvgFile:
             App.setActiveDocument(doc_name)
             updated_objects = []
             for shape, name in new_children:
-                child = upsert(shape, name, App.ActiveDocument, obj)
+                child = upsert(shape, name, App.ActiveDocument, obj, self.as_sketches)
                 pending_for_remove[child.Name] = False
                 updated_objects.append(child)
 

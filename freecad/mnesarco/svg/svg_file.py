@@ -205,21 +205,22 @@ class SvgFile:
             self.on_execute(obj)
 
 
-    def get_selection(self, obj: App.DocumentObject) -> Tuple[List[Tuple[str, re.Pattern, str]], bool]:
+    def get_selection(self, obj: App.DocumentObject) -> Tuple[List[Tuple[str, re.Pattern, str]], str]:
         """
         Parse and rename selections if necessary
         """
         result = []
-        changed = False
+        error = ''
         doc = obj.Document
         for name, pattern, src_pattern in parse_selectors(self.select, obj.Name):
             child = doc.getObject(name)
-            if not child or child.getParent() is obj:
-                result.append((name, pattern, src_pattern))
-            else:
-                result.append((f"{obj.Name}_{name}", pattern, src_pattern))
-                changed = True
-        return result, changed
+            if child and child.getParent() is not obj:
+                parent = child.getParent().Label if child.getParent() else ''
+                error = f"Selection {obj.Label}.{name} attempts to override {parent}.{name}"
+                return [], error
+            result.append((name, pattern, src_pattern))
+
+        return result, error
 
 
     def extract_by_pattern(self, selection, not_found, new_children, svg_doc):
@@ -252,9 +253,9 @@ class SvgFile:
 
 
     def on_execute(self, obj):
-        selection, selection_changed = self.get_selection(obj)
-        if selection_changed:
-            self.select = [f"{n}:{p}" for n,pp,p in selection]
+        selection, selection_error = self.get_selection(obj)
+        if selection_error:
+            log_err(selection_error)
             return
 
         if self.file and Path(self.file).exists() and self.select:

@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
-# 
+#
 # Copyright (C) 2021 Frank David Martinez M. <https://github.com/mnesarco/>
-# 
+#
 # This file is part of Mnesarco Utils.
-# 
+#
 # Mnesarco Utils is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # Utils is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with Mnesarco Utils.  If not, see <http://www.gnu.org/licenses/>.
-# 
+#
 
 from freecad.mnesarco.utils import preferences
 from freecad.mnesarco.gui import Gui
@@ -28,7 +28,7 @@ __all__ = ('Command', 'add_global_action')
 
 
 class Command:
-    
+
     def __init__(self, icon, menu, action, accel=None, tooltip=None, activation=True, statustip=None):
         self.icon = icon
         self.accel = accel
@@ -50,19 +50,19 @@ class Command:
     def Activated(self):
         self.action()
 
-    def isActive(self):
+    def IsActive(self):
         if callable(self.activation):
-            return self.activation()
+            return bool(self.activation())
         else:
             return self.activation
 
 
 def _get_toolbar_key():
     keys = preferences.get_user_pref_keys("Workbench/Global", "Toolbar", "Custom_")
-    for key in keys:        
+    for key in keys:
         name = preferences.get_user_pref("Workbench/Global/Toolbar", key, "Name")
         if name == TOOLBAR_NAME:
-            return "Workbench/Global/Toolbar/" + key  
+            return "Workbench/Global/Toolbar/" + key
     toolbar_key = preferences.get_user_pref_next_key("Workbench/Global", "Toolbar", "Custom_")
     return "Workbench/Global/Toolbar/" + toolbar_key
 

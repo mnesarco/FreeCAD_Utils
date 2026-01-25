@@ -55,10 +55,10 @@ Then restart FreeCAD.
 
 ## Forum threads
 
-* Main Thread: https://forum.freecadweb.org/viewtopic.php?f=9&t=55511
-* Keypad: https://forum.freecadweb.org/viewtopic.php?f=24&t=55374
-* 8D Space Controller: https://forum.freecadweb.org/viewtopic.php?f=24&t=54367
-* Scripting utilities: https://forum.freecadweb.org/viewtopic.php?f=22&t=54026
+* Main Thread: https://forum.freecad.org/viewtopic.php?f=9&t=55511
+* Keypad: https://forum.freecad.org/viewtopic.php?f=24&t=55374
+* 8D Space Controller: https://forum.freecad.org/viewtopic.php?f=24&t=54367
+* Scripting utilities: https://forum.freecad.org/viewtopic.php?f=22&t=54026
 * Svg Dynamic Import: https://forum.freecad.org/viewtopic.php?t=55511&start=40#p780479
 
 ## Videos
